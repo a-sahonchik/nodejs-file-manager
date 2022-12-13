@@ -58,4 +58,5 @@ export {
     CLI_COMMAND_OS,
     CLI_COMMAND_UP,
     CLI_COMMAND_LS,
+    CLI_COMMAND_CD,
 };

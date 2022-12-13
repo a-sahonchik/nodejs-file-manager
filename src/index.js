@@ -6,6 +6,7 @@ import { parseCommandFromInput } from './commands/parseCommands.js';
 import { isCommandValid } from './commands/validateCommands.js';
 import { runCommand } from './commands/handleCommands.js';
 import { CLI_COMMAND_EXIT } from './commands/commands.js';
+import { CurrentDirectoryStorage } from './utils/currentDirectoryStorage.js';
 
 const WORKING_DIRECTORY_MESSAGE = 'You are currently in';
 const INVALID_INPUT_MESSAGE = 'Invalid input';
@@ -13,9 +14,9 @@ const OPERATION_FAILED_MESSAGE = 'Operation failed';
 
 await sayHiToUser();
 
-const currentDirectory = os.homedir();
+CurrentDirectoryStorage.setCurrentDirectory(os.homedir());
 
-console.log(WORKING_DIRECTORY_MESSAGE, currentDirectory);
+console.log(WORKING_DIRECTORY_MESSAGE, CurrentDirectoryStorage.getCurrentDirectory());
 
 const rl = readline.createInterface({ input, output });
 
@@ -41,7 +42,7 @@ rl.on('line', async (input) => {
             console.error(OPERATION_FAILED_MESSAGE);
         }
 
-        console.log(WORKING_DIRECTORY_MESSAGE, currentDirectory);
+        console.log(WORKING_DIRECTORY_MESSAGE, CurrentDirectoryStorage.getCurrentDirectory());
 
         rl.prompt();
     }

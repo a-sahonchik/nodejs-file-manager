@@ -34,12 +34,12 @@ rl.on('line', async (input) => {
 
         if (isCommandCallHasAnyErrors) {
             console.log(INVALID_INPUT_MESSAGE);
-        }
-
-        try {
-            await runCommand(command);
-        } catch {
-            console.error(OPERATION_FAILED_MESSAGE);
+        } else {
+            try {
+                await runCommand(command);
+            } catch {
+                console.error(OPERATION_FAILED_MESSAGE);
+            }
         }
 
         console.log(WORKING_DIRECTORY_MESSAGE, CurrentDirectoryStorage.getCurrentDirectory());

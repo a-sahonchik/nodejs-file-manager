@@ -1,4 +1,4 @@
-import { commands, commandsArgumentsCount, commandsParameters } from './commands.js';
+import { commandsArgumentsCount, commandsParameters } from './commands.js';
 
 const isCommandValid = async (command) => {
     const commandExists = await isCommandExists(command);
@@ -25,7 +25,7 @@ const isCommandValid = async (command) => {
 }
 
 const isCommandExists = async (command) => {
-    return commands.includes(command.name);
+    return command.name in commandsArgumentsCount;
 }
 
 const isCommandArgumentsCountMatchAllowedValue = async (command) => {

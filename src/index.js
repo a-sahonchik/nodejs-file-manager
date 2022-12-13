@@ -4,32 +4,46 @@ import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { parseCommandFromInput } from './commands/parseCommands.js';
 import { isCommandValid } from './commands/validateCommands.js';
+import { runCommand } from './commands/handleCommands.js';
+import { CLI_COMMAND_EXIT } from './commands/commands.js';
 
 const WORKING_DIRECTORY_MESSAGE = 'You are currently in';
-const EXIT_MESSAGE_INPUT = '.exit';
 const INVALID_INPUT_MESSAGE = 'Invalid input';
+const OPERATION_FAILED_MESSAGE = 'Operation failed';
 
 await sayHiToUser();
 
 const currentDirectory = os.homedir();
 
-console.log(`${WORKING_DIRECTORY_MESSAGE} ${currentDirectory}`);
+console.log(WORKING_DIRECTORY_MESSAGE, currentDirectory);
 
 const rl = readline.createInterface({ input, output });
 
+rl.prompt();
+
 rl.on('line', async (input) => {
-    const command = await parseCommandFromInput(input);
+    const trimmedInput = input.trim();
 
-    const isCommandCallHasAnyErrors = !(await isCommandValid(command));
-
-    if (isCommandCallHasAnyErrors) {
-        console.log(INVALID_INPUT_MESSAGE);
-    }
-
-    if (input === EXIT_MESSAGE_INPUT) {
+    if (trimmedInput === CLI_COMMAND_EXIT) {
         rl.close();
     } else {
-        console.log(`${WORKING_DIRECTORY_MESSAGE} ${currentDirectory}`);
+        const command = await parseCommandFromInput(trimmedInput);
+
+        const isCommandCallHasAnyErrors = !(await isCommandValid(command));
+
+        if (isCommandCallHasAnyErrors) {
+            console.log(INVALID_INPUT_MESSAGE);
+        }
+
+        try {
+            await runCommand(command);
+        } catch {
+            console.error(OPERATION_FAILED_MESSAGE);
+        }
+
+        console.log(WORKING_DIRECTORY_MESSAGE, currentDirectory);
+
+        rl.prompt();
     }
 });
 
@@ -39,4 +53,6 @@ rl.on('SIGINT', () => {
 
 rl.on('close', async () => {
     await sayByeToUser();
+
+    process.exit(0);
 });

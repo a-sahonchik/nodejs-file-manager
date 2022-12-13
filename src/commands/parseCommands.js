@@ -1,4 +1,4 @@
-const parseCommand = async (command) => {
+const parseCommandFromInput = async (command) => {
     const splittedCommand = command.split(' ');
 
     const parsedCommand = {
@@ -9,4 +9,4 @@ const parseCommand = async (command) => {
     return parsedCommand;
 }
 
-export { parseCommand };
+export { parseCommandFromInput };

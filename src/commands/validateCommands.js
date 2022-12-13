@@ -1,28 +1,25 @@
 import { commands, commandsArgumentsCount, commandsParameters } from './commands.js';
-import { parseCommand } from './parseCommands.js';
 
 const isCommandValid = async (command) => {
-    const parsedCommand = await parseCommand(command);
-
-    const commandExists = await isCommandExists(parsedCommand);
+    const commandExists = await isCommandExists(command);
 
     if (!commandExists) {
         return false;
     }
 
-    const commandArgumentsCountMatchAllowedValue = await isCommandArgumentsCountMatchAllowedValue(parsedCommand);
+    const commandArgumentsCountMatchAllowedValue = await isCommandArgumentsCountMatchAllowedValue(command);
 
     if (!commandArgumentsCountMatchAllowedValue) {
         return false;
     }
 
-    const isCommandHasSpecificParameters = parsedCommand.name in commandsParameters;
+    const isCommandHasSpecificParameters = command.name in commandsParameters;
 
     if (!isCommandHasSpecificParameters) {
         return true;
     }
 
-    const commandParameterExists = await isCommandParameterExists(parsedCommand);
+    const commandParameterExists = await isCommandParameterExists(command);
 
     return commandParameterExists;
 }

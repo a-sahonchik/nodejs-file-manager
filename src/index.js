@@ -2,6 +2,7 @@ import { sayHiToUser, sayByeToUser } from "./greeter.js";
 import os from 'os';
 import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import { parseCommandFromInput } from './commands/parseCommands.js';
 import { isCommandValid } from './commands/validateCommands.js';
 
 const WORKING_DIRECTORY_MESSAGE = 'You are currently in';
@@ -17,7 +18,9 @@ console.log(`${WORKING_DIRECTORY_MESSAGE} ${currentDirectory}`);
 const rl = readline.createInterface({ input, output });
 
 rl.on('line', async (input) => {
-    const isCommandCallHasAnyErrors = !(await isCommandValid(input));
+    const command = await parseCommandFromInput(input);
+
+    const isCommandCallHasAnyErrors = !(await isCommandValid(command));
 
     if (isCommandCallHasAnyErrors) {
         console.log(INVALID_INPUT_MESSAGE);

@@ -7,6 +7,8 @@ import { add } from '../operations/add.js';
 import { rm } from '../operations/rm.js';
 import { rn } from '../operations/rn.js';
 import { hash } from '../operations/hash.js';
+import { compress } from '../operations/compress.js';
+import { decompress } from '../operations/decompress.js';
 import {
     CLI_COMMAND_OS,
     CLI_COMMAND_UP,
@@ -17,6 +19,8 @@ import {
     CLI_COMMAND_RM,
     CLI_COMMAND_RN,
     CLI_COMMAND_HASH,
+    CLI_COMMAND_COMPRESS,
+    CLI_COMMAND_DECOMPRESS,
 } from './commands.js';
 
 const runCommand = async (command) => {
@@ -57,6 +61,14 @@ const runCommand = async (command) => {
             break;
         case CLI_COMMAND_HASH:
             await hash(command);
+
+            break;
+        case CLI_COMMAND_COMPRESS:
+            await compress(command);
+
+            break;
+        case CLI_COMMAND_DECOMPRESS:
+            await decompress(command);
 
             break;
     }

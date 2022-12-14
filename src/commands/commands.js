@@ -61,4 +61,5 @@ export {
     CLI_COMMAND_CD,
     CLI_COMMAND_CAT,
     CLI_COMMAND_ADD,
+    CLI_COMMAND_RM,
 };

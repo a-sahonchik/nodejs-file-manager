@@ -4,6 +4,7 @@ import { ls } from '../operations/ls.js';
 import { cd } from '../operations/cd.js';
 import { cat } from '../operations/cat.js';
 import { add } from '../operations/add.js';
+import { rm } from '../operations/rm.js';
 import {
     CLI_COMMAND_OS,
     CLI_COMMAND_UP,
@@ -11,6 +12,7 @@ import {
     CLI_COMMAND_CD,
     CLI_COMMAND_CAT,
     CLI_COMMAND_ADD,
+    CLI_COMMAND_RM,
 } from './commands.js';
 
 const runCommand = async (command) => {
@@ -39,6 +41,10 @@ const runCommand = async (command) => {
             break;
         case CLI_COMMAND_ADD:
             await add(command);
+
+            break;
+        case CLI_COMMAND_RM:
+            await rm(command);
 
             break;
     }

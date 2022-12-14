@@ -12,18 +12,22 @@ const ls = async () => {
 
     try {
         const files = await readdir(currentDirectory);
+        const normalizedFolders = [];
         const normalizedFiles = [];
 
         for (const file of files) {
             const folderExists = await isFolderExists(file);
 
-            normalizedFiles.push({
-                [NAME_FIELD_TITLE]: file,
-                [TYPE_FIELD_TITLE]: folderExists ? TYPE_FIELD_DIRECTORY_VALUE : TYPE_FIELD_FILE_VALUE,
-            });
+            folderExists ? normalizedFolders.push({
+                    [NAME_FIELD_TITLE]: file,
+                    [TYPE_FIELD_TITLE]: TYPE_FIELD_DIRECTORY_VALUE,
+                }) : normalizedFiles.push({
+                    [NAME_FIELD_TITLE]: file,
+                    [TYPE_FIELD_TITLE]: TYPE_FIELD_FILE_VALUE,
+                });
         }
 
-        console.table(normalizedFiles);
+        console.table([...normalizedFolders, ...normalizedFiles]);
     } catch (err) {
         throw new Error(err);
     }

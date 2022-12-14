@@ -63,4 +63,5 @@ export {
     CLI_COMMAND_ADD,
     CLI_COMMAND_RM,
     CLI_COMMAND_RN,
+    CLI_COMMAND_HASH,
 };

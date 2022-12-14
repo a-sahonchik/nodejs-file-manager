@@ -6,6 +6,7 @@ import { cat } from '../operations/cat.js';
 import { add } from '../operations/add.js';
 import { rm } from '../operations/rm.js';
 import { rn } from '../operations/rn.js';
+import { hash } from '../operations/hash.js';
 import {
     CLI_COMMAND_OS,
     CLI_COMMAND_UP,
@@ -15,6 +16,7 @@ import {
     CLI_COMMAND_ADD,
     CLI_COMMAND_RM,
     CLI_COMMAND_RN,
+    CLI_COMMAND_HASH,
 } from './commands.js';
 
 const runCommand = async (command) => {
@@ -51,6 +53,10 @@ const runCommand = async (command) => {
             break;
         case CLI_COMMAND_RN:
             await rn(command);
+
+            break;
+        case CLI_COMMAND_HASH:
+            await hash(command);
 
             break;
     }

@@ -1,4 +1,4 @@
-import { lstat } from "node:fs/promises";
+import { lstat, constants, access } from "node:fs/promises";
 import { join, isAbsolute } from 'node:path';
 import { CurrentDirectoryStorage } from './currentDirectoryStorage.js';
 
@@ -13,6 +13,16 @@ async function isFolderExists(path) {
     }
 }
 
+async function isFileExists(path) {
+    try {
+        await access(path, constants.F_OK);
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 async function getAbsolutePath(path) {
     const currentDirectory = CurrentDirectoryStorage.getCurrentDirectory();
     const isPathAbsolute = isAbsolute(path);
@@ -21,4 +31,4 @@ async function getAbsolutePath(path) {
     return absolutePath;
 }
 
-export { isFolderExists, getAbsolutePath }
+export { isFolderExists, getAbsolutePath, isFileExists }

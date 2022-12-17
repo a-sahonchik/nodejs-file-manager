@@ -1,36 +1,45 @@
-import { CurrentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
-import { isFolderExists } from '../utils/fsHelpers.js';
+import { currentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
 import { readdir } from 'node:fs/promises';
 
-const NAME_FIELD_TITLE = 'Name';
-const TYPE_FIELD_TITLE = 'Type';
+const NAME_FIELD_TITLE = 'name';
+const TYPE_FIELD_TITLE = 'type';
 const TYPE_FIELD_FILE_VALUE = 'file';
 const TYPE_FIELD_DIRECTORY_VALUE = 'directory';
 
 const ls = async () => {
-    const currentDirectory = CurrentDirectoryStorage.getCurrentDirectory();
+    const currentDirectory = currentDirectoryStorage.getCurrentDirectory();
 
-    try {
-        const files = await readdir(currentDirectory);
-        const normalizedFolders = [];
-        const normalizedFiles = [];
+    const files = await readdir(currentDirectory, {withFileTypes: true});
 
-        for (const file of files) {
-            const folderExists = await isFolderExists(file);
+    const normalizedFiles = await getNormalizedFilesInfo(files);
 
-            folderExists ? normalizedFolders.push({
-                    [NAME_FIELD_TITLE]: file,
-                    [TYPE_FIELD_TITLE]: TYPE_FIELD_DIRECTORY_VALUE,
-                }) : normalizedFiles.push({
-                    [NAME_FIELD_TITLE]: file,
-                    [TYPE_FIELD_TITLE]: TYPE_FIELD_FILE_VALUE,
-                });
-        }
+    console.table(normalizedFiles);
+};
 
-        console.table([...normalizedFolders, ...normalizedFiles]);
-    } catch (err) {
-        throw new Error(err);
-    }
-}
+const getNormalizedFilesInfo = async (files) => {
+    const normalizedFiles = files
+        .filter(includeFilesAndDirectoriesOnly)
+        .map(normalizeFileInfo)
+        .sort(byNameAndType);
+
+    return normalizedFiles;
+};
+
+const includeFilesAndDirectoriesOnly = (file) => {
+    return file.isDirectory() || file.isFile();
+};
+
+const normalizeFileInfo = (file) => {
+    return {
+        [NAME_FIELD_TITLE]: file.name,
+        [TYPE_FIELD_TITLE]: file.isFile() ? TYPE_FIELD_FILE_VALUE : TYPE_FIELD_DIRECTORY_VALUE,
+    };
+};
+
+const byNameAndType = (a, b) => {
+    return a.type === b.type
+    ? a.name.localeCompare(b.name)
+    : a.type === TYPE_FIELD_FILE_VALUE ? 1 : -1;
+};
 
 export { ls };

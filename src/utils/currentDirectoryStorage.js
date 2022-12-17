@@ -1,10 +1,21 @@
-const CurrentDirectoryStorage = {
+import os from 'node:os';
+
+const defaultWorkingDirectory = os.homedir();
+
+class CurrentDirectoryStorage {
+    constructor() {
+        this.currentDirectory = defaultWorkingDirectory;
+    };
+
     setCurrentDirectory(directory) {
-        CurrentDirectoryStorage.currentDirectory = directory;
-    },
+        this.currentDirectory = directory;
+    };
+
     getCurrentDirectory() {
-        return CurrentDirectoryStorage.currentDirectory;
-    }
+        return this.currentDirectory;
+    };
 }
 
-export { CurrentDirectoryStorage }
+const currentDirectoryStorage = new CurrentDirectoryStorage();
+
+export { currentDirectoryStorage };

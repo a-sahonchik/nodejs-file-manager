@@ -5,7 +5,7 @@ import {
     CLI_COMMAND_OS_ARGUMENT_HOMEDIR,
     CLI_COMMAND_OS_ARGUMENT_USERNAME,
     CLI_COMMAND_OS_ARGUMENT_ARCHITECTURE
-} from '../commands/commands.js'
+} from '../commands/commands.js';
 
 const CLI_ARGUMENT_EOL_OUTPUT_MESSAGE = 'Default system End-Of-Line marker:';
 const CLI_ARGUMENT_CPUS_AMOUNT_MESSAGE = 'CPUs amount:';
@@ -39,11 +39,11 @@ const os = async (command) => {
 
             break;
     }
-}
+};
 
 const displayEndOfLineMarker = async () => {
     console.log(CLI_ARGUMENT_EOL_OUTPUT_MESSAGE, JSON.stringify(osModule.EOL));
-}
+};
 
 const displayCpusInfo = async () => {
     const cpus = osModule.cpus();
@@ -62,21 +62,21 @@ const displayCpusInfo = async () => {
         };
 
         cpusInfo[i + 1] = cpu;
-    })
+    });
 
     console.table(cpusInfo);
-}
+};
 
 const displayHomeDirectory = async () => {
     console.log(CLI_ARGUMENT_HOMEDIR_OUTPUT_MESSAGE, osModule.homedir());
-}
+};
 
 const displaySystemUserName = async () => {
     console.log(CLI_ARGUMENT_USERNAME_OUTPUT_MESSAGE, osModule.userInfo().username);
-}
+};
 
 const displayCpuArchitectureInfo = async () => {
     console.log(CLI_ARGUMENT_ARCHITECTURE_OUTPUT_MESSAGE, osModule.arch());
-}
+};
 
 export { os };

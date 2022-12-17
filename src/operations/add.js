@@ -5,13 +5,9 @@ const add = async (command) => {
     const filePath = command.arguments[0];
     const absoluteFilePath = await getAbsolutePath(filePath);
 
-    try {
-        await writeFile(absoluteFilePath, '', {
-            flag: 'ax'
-        });
-    } catch {
-        throw new Error()
-    }
+    await writeFile(absoluteFilePath, '', {
+        flag: 'ax'
+    });
 };
 
 export { add };

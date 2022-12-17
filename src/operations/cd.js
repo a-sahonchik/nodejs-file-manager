@@ -1,17 +1,14 @@
-import { CurrentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
-import { getAbsolutePath, isFolderExists } from '../utils/fsHelpers.js';
+import { currentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
+import { getAbsolutePath } from '../utils/fsHelpers.js';
+import { assertFolderExists } from '../utils/asserts.js';
 
 const cd = async (command) => {
     const newPath = command.arguments[0];
     const absoluteNewPath = await getAbsolutePath(newPath);
 
-    const folderExists = await isFolderExists(absoluteNewPath);
+    await assertFolderExists(absoluteNewPath);
 
-    if (folderExists) {
-        CurrentDirectoryStorage.setCurrentDirectory(absoluteNewPath);
-    } else {
-        throw new Error();
-    }
-}
+    currentDirectoryStorage.setCurrentDirectory(absoluteNewPath);
+};
 
 export { cd };

@@ -1,59 +1,52 @@
-import { sayHiToUser, sayByeToUser } from "./greeter.js";
-import os from 'os';
 import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import { sayHiToUser, sayByeToUser } from "./utils/greeter.js";
 import { parseCommandFromInput } from './commands/parseCommands.js';
 import { isCommandValid } from './commands/validateCommands.js';
 import { runCommand } from './commands/handleCommands.js';
-import { CLI_COMMAND_EXIT } from './commands/commands.js';
-import { CurrentDirectoryStorage } from './utils/currentDirectoryStorage.js';
-
-const WORKING_DIRECTORY_MESSAGE = 'You are currently in';
-const INVALID_INPUT_MESSAGE = 'Invalid input';
-const OPERATION_FAILED_MESSAGE = 'Operation failed';
-
-await sayHiToUser();
-
-CurrentDirectoryStorage.setCurrentDirectory(os.homedir());
-
-console.log(WORKING_DIRECTORY_MESSAGE, CurrentDirectoryStorage.getCurrentDirectory());
+import { readlineInterfaceStorage } from './utils/readlineInterfaceStorage.js';
+import { displayCurrentWorkingDir, displayInvalidInputError, displayOperationFailedError } from './utils/logger.js';
 
 const rl = readline.createInterface({ input, output });
+readlineInterfaceStorage.setReadlineInterface(rl);
 
-rl.prompt();
+const fileManager = async () => {
+    await sayHiToUser();
 
-rl.on('line', async (input) => {
-    const trimmedInput = input.trim();
+    await displayCurrentWorkingDir();
 
-    if (trimmedInput === CLI_COMMAND_EXIT) {
-        rl.close();
-    } else {
+    rl.prompt();
+
+    rl.on('line', async (input) => {
+        const trimmedInput = input.trim();
         const command = await parseCommandFromInput(trimmedInput);
 
         const isCommandCallHasAnyErrors = !(await isCommandValid(command));
 
         if (isCommandCallHasAnyErrors) {
-            console.log(INVALID_INPUT_MESSAGE);
+            await displayInvalidInputError();
         } else {
             try {
                 await runCommand(command);
             } catch {
-                console.error(OPERATION_FAILED_MESSAGE);
+                await displayOperationFailedError();
             }
         }
 
-        console.log(WORKING_DIRECTORY_MESSAGE, CurrentDirectoryStorage.getCurrentDirectory());
+        await displayCurrentWorkingDir();
 
         rl.prompt();
-    }
-});
+    });
 
-rl.on('SIGINT', () => {
-    rl.close();
-});
+    rl.on('SIGINT', () => {
+        rl.close();
+    });
 
-rl.on('close', async () => {
-    await sayByeToUser();
+    rl.on('close', async () => {
+        await sayByeToUser();
 
-    process.exit(0);
-});
+        process.exit(0);
+    });
+};
+
+await fileManager();

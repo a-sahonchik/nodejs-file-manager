@@ -28,7 +28,7 @@ const commandsArgumentsCount = {
     [CLI_COMMAND_COMPRESS]: 2,
     [CLI_COMMAND_DECOMPRESS]: 2,
     [CLI_COMMAND_EXIT]: 0,
-}
+};
 
 const CLI_COMMAND_OS_ARGUMENT_EOL = '--EOL';
 const CLI_COMMAND_OS_ARGUMENT_CPUS = '--cpus';
@@ -44,12 +44,11 @@ const commandsParameters = {
         CLI_COMMAND_OS_ARGUMENT_USERNAME,
         CLI_COMMAND_OS_ARGUMENT_ARCHITECTURE,
     ],
-}
+};
 
 export {
     commandsArgumentsCount,
     commandsParameters,
-    CLI_COMMAND_EXIT,
     CLI_COMMAND_OS_ARGUMENT_EOL,
     CLI_COMMAND_OS_ARGUMENT_CPUS,
     CLI_COMMAND_OS_ARGUMENT_HOMEDIR,
@@ -68,4 +67,5 @@ export {
     CLI_COMMAND_DECOMPRESS,
     CLI_COMMAND_CP,
     CLI_COMMAND_MV,
+    CLI_COMMAND_EXIT,
 };

@@ -17,9 +17,9 @@ const cat = async (command) => {
             resolve();
         });
 
-        readStream.on('error', () => {
-            reject(new Error());
-        })
+        readStream.on('error', (err) => {
+            reject(err);
+        });
     });
 };
 

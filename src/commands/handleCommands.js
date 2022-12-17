@@ -11,6 +11,7 @@ import { compress } from '../operations/compress.js';
 import { decompress } from '../operations/decompress.js';
 import { cp } from '../operations/cp.js';
 import { mv } from '../operations/mv.js';
+import { exit } from '../operations/exit.js';
 import {
     CLI_COMMAND_OS,
     CLI_COMMAND_UP,
@@ -25,6 +26,7 @@ import {
     CLI_COMMAND_DECOMPRESS,
     CLI_COMMAND_CP,
     CLI_COMMAND_MV,
+    CLI_COMMAND_EXIT,
 } from './commands.js';
 
 const runCommand = async (command) => {
@@ -83,7 +85,11 @@ const runCommand = async (command) => {
             await mv(command);
 
             break;
+        case CLI_COMMAND_EXIT:
+            await exit(command);
+
+            break;
     }
-}
+};
 
 export { runCommand };

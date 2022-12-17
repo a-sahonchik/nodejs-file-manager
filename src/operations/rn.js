@@ -7,11 +7,7 @@ const rn = async (command) => {
     const absoluteCurrentFilePath = await getAbsolutePath(currentFileName);
     const absoluteNewFilePath = await getAbsolutePath(newFileName);
 
-    try {
-        await rename(absoluteCurrentFilePath, absoluteNewFilePath);
-    } catch {
-        throw new Error();
-    }
+    await rename(absoluteCurrentFilePath, absoluteNewFilePath);
 };
 
 export { rn };

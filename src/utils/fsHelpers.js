@@ -1,8 +1,8 @@
 import { lstat, constants, access } from "node:fs/promises";
 import { join, isAbsolute } from 'node:path';
-import { CurrentDirectoryStorage } from './currentDirectoryStorage.js';
+import { currentDirectoryStorage } from './currentDirectoryStorage.js';
 
-async function isFolderExists(path) {
+const isFolderExists = async (path) => {
     try {
         const filePath = await getAbsolutePath(path);
         const stat = await lstat(filePath);
@@ -11,9 +11,9 @@ async function isFolderExists(path) {
     } catch {
         return false;
     }
-}
+};
 
-async function isFileExists(path) {
+const isFileExists = async (path) => {
     try {
         await access(path, constants.F_OK);
 
@@ -21,14 +21,14 @@ async function isFileExists(path) {
     } catch {
         return false;
     }
-}
+};
 
-async function getAbsolutePath(path) {
-    const currentDirectory = CurrentDirectoryStorage.getCurrentDirectory();
+const getAbsolutePath = async (path) => {
+    const currentDirectory = currentDirectoryStorage.getCurrentDirectory();
     const isPathAbsolute = isAbsolute(path);
     const absolutePath = isPathAbsolute ? path : join(currentDirectory, path);
 
     return absolutePath;
-}
+};
 
-export { isFolderExists, getAbsolutePath, isFileExists }
+export { isFolderExists, getAbsolutePath, isFileExists };

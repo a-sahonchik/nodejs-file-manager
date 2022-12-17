@@ -22,23 +22,23 @@ const isCommandValid = async (command) => {
     const commandParameterExists = await isCommandParameterExists(command);
 
     return commandParameterExists;
-}
+};
 
 const isCommandExists = async (command) => {
     return command.name in commandsArgumentsCount;
-}
+};
 
 const isCommandArgumentsCountMatchAllowedValue = async (command) => {
     const executedCommandArgumentsCount = command.arguments.length;
     const requiredCommandArgumentsCount = commandsArgumentsCount[command.name];
 
     return executedCommandArgumentsCount === requiredCommandArgumentsCount;
-}
+};
 
 const isCommandParameterExists = async (command) => {
     const existingCommandParameters = commandsParameters[command.name];
 
     return existingCommandParameters.includes(command.arguments.toString());
-}
+};
 
 export { isCommandValid };

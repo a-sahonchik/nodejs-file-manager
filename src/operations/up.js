@@ -1,10 +1,10 @@
 import { join } from 'node:path';
-import { CurrentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
+import { currentDirectoryStorage } from '../utils/currentDirectoryStorage.js';
 
 const up = async () => {
-    const currentDirectory = join(CurrentDirectoryStorage.getCurrentDirectory(), '..');
+    const newDirectory = join(currentDirectoryStorage.getCurrentDirectory(), '..');
 
-    CurrentDirectoryStorage.setCurrentDirectory(currentDirectory);
-}
+    currentDirectoryStorage.setCurrentDirectory(newDirectory);
+};
 
 export { up };
